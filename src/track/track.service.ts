@@ -28,11 +28,11 @@ export default class TrackService {
   }
 
   async getAll(count = 10, offset = 0): Promise<Track[]> {
-    return await this.trackModel.find().skip(offset).limit(count);
+    return this.trackModel.find().skip(offset).limit(count);
   }
 
   async getOne(id: Types.ObjectId): Promise<Track> {
-    return await this.trackModel.findById(id).populate('comments');
+    return this.trackModel.findById(id).populate('comments');
   }
 
   async delete(id: Types.ObjectId): Promise<Types.ObjectId> {
