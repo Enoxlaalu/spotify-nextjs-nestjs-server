@@ -43,7 +43,6 @@ export default class TrackService {
   async addComment(dto: CreateCommentDto): Promise<Comment> {
     const track = await this.trackModel.findById(dto.trackId);
     const comment = await this.commentModel.create({ ...dto });
-    console.log(comment);
 
     track.comments.push(comment);
     await track.save();

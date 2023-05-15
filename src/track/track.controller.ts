@@ -55,7 +55,6 @@ export class TrackController {
 
   @Post('/comment')
   addComment(@Body() dto: CreateCommentDto) {
-    console.log('comment');
     return this.trackService.addComment(dto);
   }
 
