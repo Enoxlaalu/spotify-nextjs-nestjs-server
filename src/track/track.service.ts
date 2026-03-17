@@ -37,11 +37,17 @@ export default class TrackService {
 
   async delete(id: Types.ObjectId): Promise<Types.ObjectId> {
     const track = await this.trackModel.findByIdAndDelete(id);
+    if (!track) {
+      throw new Error(`Track ${id} not found`);
+    }
     return track._id;
   }
 
   async addComment(dto: CreateCommentDto): Promise<Comment> {
     const track = await this.trackModel.findById(dto.trackId);
+    if (!track) {
+      throw new Error(`Track ${dto.trackId} not found`);
+    }
     const comment = await this.commentModel.create({ ...dto });
 
     track.comments.push(comment);
@@ -51,13 +57,17 @@ export default class TrackService {
 
   async listen(id: ObjectId) {
     const track = await this.trackModel.findById(id);
+    if (!track) {
+      return;
+    }
     track.listens += 1;
-    track.save();
+    await track.save();
   }
 
   async search(query: string): Promise<Track[]> {
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     return await this.trackModel.find({
-      name: { $regex: new RegExp(query, 'i') },
+      name: { $regex: new RegExp(escaped, 'i') },
     });
   }
 }

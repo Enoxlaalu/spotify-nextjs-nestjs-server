@@ -14,7 +14,6 @@ import { CreateTrackDto } from './dto/create-track.dto';
 import { ObjectId, Types } from 'mongoose';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { log } from 'console';
 
 @Controller('/tracks')
 export class TrackController {
