@@ -13,6 +13,17 @@ const ALLOWED_MIME_TYPES: Record<FileType, string[]> = {
   [FileType.IMAGE]: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
 };
 
+const MIME_TO_EXT: Record<string, string> = {
+  'audio/mpeg': 'mp3',
+  'audio/wav': 'wav',
+  'audio/ogg': 'ogg',
+  'audio/mp4': 'mp4',
+  'image/jpeg': 'jpg',
+  'image/png': 'png',
+  'image/webp': 'webp',
+  'image/gif': 'gif',
+};
+
 const MAX_FILE_SIZE: Record<FileType, number> = {
   [FileType.AUDIO]: 50 * 1024 * 1024, // 50 MB
   [FileType.IMAGE]: 5 * 1024 * 1024,  // 5 MB
@@ -36,7 +47,7 @@ export default class FileService {
         );
       }
 
-      const fileExtension = file.originalname.split('.').pop();
+      const fileExtension = MIME_TO_EXT[file.mimetype];
       const fileName = uuid.v4() + '.' + fileExtension;
       const filePath = path.resolve(__dirname, '..', 'static', type);
 
